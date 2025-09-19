@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Servicios - NeoTec</title>
+    <link rel="stylesheet" href="../styles/Admin_servicios.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-microchip"></i>
+                <span>NeoTec</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="home.html">Inicio</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="admin-servicios.html" class="active">Admin Servicios</a></li>
+                <li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="admin-header">
+        <div class="container">
+            <h1><i class="fas fa-cogs"></i> Administración de Servicios</h1>
+            <p>Gestiona todos los servicios de la plataforma</p>
+            <button class="btn-add-service" onclick="openAddServiceModal()">
+                <i class="fas fa-plus"></i> Agregar Nuevo Servicio
+            </button>
+        </div>
+    </section>
+
+    <!-- Estadísticas -->
+    <section class="admin-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-services">0</h3>
+                        <p>Total Servicios</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="active-promotions">0</h3>
+                        <p>Promociones Activas</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="categories-count">0</h3>
+                        <p>Categorías</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="admin-filters">
+        <div class="container">
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Buscar servicios...">
+                </div>
+                <select id="category-filter">
+                    <option value="">Todas las categorías</option>
+                    <option value="desarrollo">Desarrollo</option>
+                    <option value="consultoria">Consultoría</option>
+                    <option value="cloud">Cloud</option>
+                    <option value="seguridad">Seguridad</option>
+                </select>
+                <select id="promotion-filter">
+                    <option value="">Todas las promociones</option>
+                    <option value="true">Con promoción</option>
+                    <option value="false">Sin promoción</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabla de Servicios -->
+    <section class="admin-content">
+        <div class="container">
+            <div class="services-table-container">
+                <table class="services-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Promoción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="services-table-body">
+                        <!-- Los servicios se cargarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal para Agregar/Editar Servicio -->
+    <div id="service-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Agregar Nuevo Servicio</h2>
+                <span class="close" onclick="closeServiceModal()">&times;</span>
+            </div>
+            <form id="service-form" class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="service-name">Nombre del Servicio</label>
+                        <input type="text" id="service-name" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-category">Categoría</label>
+                        <select id="service-category" name="categoria" required>
+                            <option value="">Seleccionar categoría</option>
+                            <option value="desarrollo">Desarrollo</option>
+                            <option value="consultoria">Consultoría</option>
+                            <option value="cloud">Cloud</option>
+                            <option value="seguridad">Seguridad</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="service-price">Precio</label>
+                        <input type="text" id="service-price" name="precio" placeholder="$0,000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service-quantity">Cantidad Disponible</label>
+                        <input type="number" id="service-quantity" name="cantidad" min="0" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service-image">URL de Imagen</label>
+                    <input type="url" id="service-image" name="imagen" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service-description">Descripción Breve</label>
+                    <textarea id="service-description" name="descripcion" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service-detailed-description">Descripción Detallada</label>
+                    <textarea id="service-detailed-description" name="descripcionDetallada" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service-features">Características (una por línea)</label>
+                    <textarea id="service-features" name="caracteristicas" rows="4" placeholder="Característica 1&#10;Característica 2&#10;Característica 3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="service-promotion" name="promocion">
+                        <label for="service-promotion">Tiene promoción activa</label>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeServiceModal()">Cancelar</button>
+                    <button type="submit" class="btn-save" id="save-button">Guardar Servicio</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content confirm-modal">
+            <div class="modal-header">
+                <h2>Confirmar Acción</h2>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">¿Estás seguro de que deseas eliminar este servicio?</p>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeConfirmModal()">Cancelar</button>
+                <button type="button" class="btn-delete" id="confirm-delete-btn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-microchip"></i> NeoTec</h3>
+                    <p>Transformando el futuro con tecnología innovadora.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Bogotá, Colombia</p>
+                    <p><i class="fas fa-phone"></i> +57 (1) 234-5678</p>
+                    <p><i class="fas fa-envelope"></i> info@neotec.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NeoTec. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../scripts/Admin_servicios.js"></script>
+</body>
+</html>
