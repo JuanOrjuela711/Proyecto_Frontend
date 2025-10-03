@@ -1,11 +1,14 @@
 // Variables globales
 let currentSlideIndex = 0;
-const slides = document.querySelectorAll('.slide');
-const indicators = document.querySelectorAll('.indicator');
+let slides;
+let indicators;
 let slideInterval;
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
+    slides = document.querySelectorAll('.slide');
+    indicators = document.querySelectorAll('.indicator');
+    
     initializeSlider();
     setupNavigation();
     checkUserSession();
@@ -42,7 +45,7 @@ function changeSlide(direction) {
 }
 
 // Ir a slide específico
-function currentSlide(slideIndex) {
+function goToSlide(slideIndex) {
     clearInterval(slideInterval);
     
     slides[currentSlideIndex].classList.remove('active');

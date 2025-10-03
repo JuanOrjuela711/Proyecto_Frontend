@@ -457,3 +457,11 @@ body {
         padding: 10px;
     }
 }
+
+.error-message {
+    font-size: 14px;
+    color: #ff4d4d;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}

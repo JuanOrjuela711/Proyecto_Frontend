@@ -53,13 +53,13 @@
             </div>
         </div>
         <div class="slider-nav">
-            <button class="prev" onclick="changeSlide(-1)">‹</button>
+            <button class="prev" onclick="changeSlide(+1)">‹</button>
             <button class="next" onclick="changeSlide(1)">›</button>
         </div>
         <div class="slider-indicators">
-            <span class="indicator active" onclick="currentSlide(1)"></span>
-            <span class="indicator" onclick="currentSlide(2)"></span>
-            <span class="indicator" onclick="currentSlide(3)"></span>
+            <span class="indicator active" onclick="goToSlide(1)"></span>
+            <span class="indicator" onclick="goToSlide(2)"></span>
+            <span class="indicator" onclick="goToSlide(3)"></span>
         </div>
     </section>
 
@@ -126,6 +126,7 @@
         </div>
     </footer>
 
-    <script src="scripts/home.js"></script>
+    <script src="../scripts/auth.js"></script>
+    <script src="../scripts/home.js"></script>
 </body>
 </html>
